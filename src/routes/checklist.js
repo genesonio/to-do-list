@@ -6,20 +6,21 @@ const Task = require('../models/task')
 router.get('/', async (req, res) => {
   try {
     let checklist = await Checklist.find({})
-    res.status(200).json(checklist)
+    res.status(200).render('checklists/index', { checklists: checklist })
   } catch (error) {
-    res.status(500).json(error)
+    res.status(500).render('pages/error', { error: 'Erro ao exibir as listas' })
   }
 })
 
 router.post('/', async (req, res) => {
   let { name } = req.body
-
   try {
     let checklist = await Checklist.create({ name })
-    res.status(200).json(checklist)
+    res.status(200).render('checklists/show', { checklist: checklist })
   } catch (err) {
-    res.status(422).json(err)
+    res
+      .status(422)
+      .render('pages/error', { error: 'Erro ao exibir as listas de tarefas' })
   }
 })
 
