@@ -31,7 +31,7 @@ router.get('/new', async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .render('pages/error', { error: 'Erro ao carregar o formulário' })
+      .render('pages/error', { error: 'Erro ao carregar a lista de tarefas' })
   }
 })
 
@@ -42,7 +42,7 @@ router.get('/:id/edit', async (req, res) => {
   } catch (erro) {
     res
       .status(500)
-      .render('pages/error', { error: 'Erro ao editar o formulário' })
+      .render('pages/error', { error: 'Erro ao editar a lista de tarefas' })
   }
 })
 
@@ -74,9 +74,11 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     let checklist = await Checklist.findByIdAndRemove(req.params.id)
-    res.status(200).json(checklist)
+    res.redirect('/checklists')
   } catch (error) {
-    res.status(422).json(error)
+    res
+      .status(422)
+      .render('pages/error', { error: 'Erro ao deletar a lista de tarefas' })
   }
 })
 
